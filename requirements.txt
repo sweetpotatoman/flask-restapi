@@ -1,0 +1,15 @@
+click
+flask
+flask-cli
+flask-cors
+flask-httpauth
+flask-restful
+flask-script
+flask-sqlalchemy
+flask_migrate
+jinja2
+pymysql
+setuptools
+sqlalchemy
+werkzeug
+wheel
