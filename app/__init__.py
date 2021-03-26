@@ -17,6 +17,7 @@ api = Api(main)
 api.add_resource(UserView, '/user')
 api.add_resource(FooListApi, '/api/v1/foos')
 api.add_resource(FooApi, '/api/v1/foo', '/api/v1/foo/<int:id>')
+# api.add_resource(Cloudapi,)
 
 
 # 函数工厂
