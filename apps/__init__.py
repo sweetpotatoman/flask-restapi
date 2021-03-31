@@ -1,9 +1,9 @@
 from flask import Flask, Blueprint
 from flask_restful import Api
-from app.foo.views import FooApi, FooListApi
-from app.account.views import UserView
-from config import Config
 from exts import db
+from config import Config
+from apps.foo.views import FooApi, FooListApi
+from apps.account.views import UserView, UserLogin, UserRegister
 from flasgger import Swagger
 
 
@@ -14,7 +14,9 @@ main = Blueprint('main', __name__)
 api = Api(main)
 
 # 设置路由
-api.add_resource(UserView, '/user')
+api.add_resource(UserView, '/user/info')
+api.add_resource(UserLogin, '/user/login')
+api.add_resource(UserRegister, '/user/register')
 api.add_resource(FooListApi, '/api/v1/foos')
 api.add_resource(FooApi, '/api/v1/foo', '/api/v1/foo/<int:id>')
 # api.add_resource(Cloudapi,)
@@ -22,7 +24,7 @@ api.add_resource(FooApi, '/api/v1/foo', '/api/v1/foo/<int:id>')
 
 # 函数工厂
 def create_app():
-    # 初始化flask
+    # 初始化 flask
     app = Flask(__name__)
     # 从对象设置配置信息
     app.config.from_object(Config)
@@ -31,6 +33,7 @@ def create_app():
     # 注册蓝图
     app.register_blueprint(main)
 
+    # 添加 swagger 支持
     swagger_config = Swagger.DEFAULT_CONFIG
     swagger_config['title'] = Config.SWAGGER_TITLE    # 配置大标题
     swagger_config['description'] = Config.SWAGGER_DESC    # 配置公共描述内容

@@ -13,3 +13,4 @@ setuptools
 sqlalchemy
 werkzeug
 wheel
+requests
