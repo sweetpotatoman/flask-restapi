@@ -4,6 +4,7 @@ from exts import db
 from config import Config
 from apps.foo.views import FooApi, FooListApi
 from apps.account.views import UserView, UserLogin, UserRegister
+from apps.cloud.views import CloudObjectList, CloudObjectNode
 from flasgger import Swagger
 
 
@@ -19,6 +20,8 @@ api.add_resource(UserLogin, '/user/login')
 api.add_resource(UserRegister, '/user/register')
 api.add_resource(FooListApi, '/api/v1/foos')
 api.add_resource(FooApi, '/api/v1/foo', '/api/v1/foo/<int:id>')
+api.add_resource(CloudObjectList, '/api/cloud/object')
+api.add_resource(CloudObjectNode, '/api/cloud/object/node')
 # api.add_resource(Cloudapi,)
 
 
