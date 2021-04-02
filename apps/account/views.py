@@ -1,38 +1,18 @@
 import functools
 import json
 import requests
-from flask_restful import Resource, fields, marshal_with, request
+# import jwt
+from flask_restful import Resource, fields, marshal_with, request, abort
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 from exts import db
 from models import User, ApiToken
 from utils.restful_utils import success, params_error, un_auth_error
+# from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 
 
-# def login_required(view):
-#     @functools.wraps(view)
-#     def wrapped_view(**kwargs):
-#         user_id = session.get('user_id')
-
-#         if user_id is None:
-#             return un_auth_error("请登录")
-#         else:
-#             guser = User.query.filter_by(id=user_id).all()
-
-#         return view(**kwargs)
-
-#     return wrapped_view
-
-
-# def login_required(view):
-#     @functools.wraps(view)
-#     def wrapped_view(**kwargs):
-#         if g.user is None:
-#             return redirect(url_for('auth.login'))
-
-#         return view(**kwargs)
-
-#     return wrapped_view
+# auth = HTTPBasicAuth()
+# token_m = HTTPTokenAuth()
 
 
 class UserView(Resource):
@@ -91,11 +71,26 @@ class UserRegister(Resource):
             abort(400)  # missing arguments
         if User.query.filter_by(username=username).first() is not None:
             abort(400)  # existing user
-        user = User(username=username, password=password)
-        # user.hash_password(password)
+        user = User(username=username)
+        user.hash_password(password)
         db.session.add(user)
         db.session.commit()
-        return success("注册成功！")
+        return success("注册成功！", data=user.id)
+
+
+# def login_required(view):
+#     @functools.wraps(view)
+#     def wrapped_view(**kwargs):
+#         user_id = session.get('user_id')
+
+#         if user_id is None:
+#             return un_auth_error("请登录")
+#         else:
+#             guser = User.query.filter_by(id=user_id).all()
+
+#         return view(**kwargs)
+
+#     return wrapped_view
 
 
 # def login_required(view):

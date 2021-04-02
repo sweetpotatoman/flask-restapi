@@ -40,9 +40,29 @@ class CloudObjectList(Resource):
 
 class CloudObjectNode(Resource):
     def get(self):
-        token_pre = db.session.query(ApiToken).get(1)
-        token = token_pre.token
+        token = db.session.query(ApiToken).first().token
+        
+        logUrl = 'http://192.168.20.92:9094/console/api/v1/object/node/info'
+        params = {
+            "kind": "NODE",
+            "nameSpace": "test",
+            "name": "seed-node"
+        }
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+        }
+        res = requests.post(logUrl, data=json.dumps(params), headers=headers)
+        result = json.loads(res.text)
+        # print(result["data"])
+        context = {}
+        context["data"] = result["data"]
+        return success("查询 node 列表", data=context)
 
+class CloudObjectNode(Resource):
+    def get(self):
+        token = db.session.query(ApiToken).first().token
+        
         logUrl = 'http://192.168.20.92:9094/console/api/v1/object/node/info'
         params = {
             "kind": "NODE",
