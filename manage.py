@@ -16,12 +16,12 @@ def initdb():
     click.echo('初始化数据库')
 
 
-@manager.command
-def insert():
-    category = Category(name='4321')
-    db.session.add(category)
-    db.session.commit()
-    click.echo('添加一个类别')
+# @manager.command
+# def insert():
+#     category = Category(name='4321')
+#     db.session.add(category)
+#     db.session.commit()
+#     click.echo('添加一个类别')
 
 
 if __name__ == '__main__':
